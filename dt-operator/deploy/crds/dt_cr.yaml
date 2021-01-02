@@ -1,0 +1,24 @@
+apiVersion: ahhuisg.com/v1
+kind: DistributedTraining
+metadata:
+  name: dt-test1
+spec:
+  name: dt-test1
+  baseGcsBucket: distributed-randomforest
+  
+  model:
+    module: sklearn.ensemble
+    class: RandomForestClassifier
+    parameters: "n_estimators=500, max_leaf_nodes=16, random_state=666, n_jobs=-1"
+    merger:
+      module: merge_list_rfs
+      function: combine_rfs
+    
+  image:
+    master:
+      repository: ahhuisg/dt-master
+      tag: 0.0.2
+    worker:
+      number: 3
+      repository: ahhuisg/dt-worker
+      tag: 0.0.2

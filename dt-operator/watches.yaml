@@ -1,0 +1,5 @@
+---
+- group: ahhuisg.com
+  version: v1
+  kind: DistributedTraining
+  chart: helm-charts/dt

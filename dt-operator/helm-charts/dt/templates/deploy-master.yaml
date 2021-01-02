@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.name }}-master
+spec:
+  selector:
+    matchLabels:
+      app: {{ .Values.name }}-master
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.name }}-master
+    spec:
+      containers:
+      - name: {{ .Values.name }}-master
+        image:  {{ .Values.image.master.repository }}:{{ .Values.image.master.tag }}
+        imagePullPolicy: Always        
+        env:
+        - name: BASE_GCS_BUCKET
+          value: "{{ .Values.baseGcsBucket }}"
+        - name: NUMBER_OF_WORKERS
+          value: "{{ .Values.image.worker.number }}"
+        - name: MODEL_MERGE_MODULE
+          value: "{{ .Values.model.merger.module }}"
+        - name: MODEL_MERGE_FUNCTION
+          value: "{{ .Values.model.merger.function }}"          
+        ports:
+          - containerPort: 5000

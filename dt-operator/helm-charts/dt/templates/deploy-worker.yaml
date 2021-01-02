@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.name }}-worker
+spec:
+  selector:
+    matchLabels:
+      app: {{ .Values.name }}-worker
+  replicas: {{ .Values.image.worker.number }} 
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.name }}-worker
+    spec:
+      containers:
+      - name: {{ .Values.name }}-worker
+        image:  {{ .Values.image.worker.repository }}:{{ .Values.image.worker.tag }}
+        imagePullPolicy: Always
+        env:
+        - name: MASTER_SERVICE
+          value: {{ .Values.name }}-master
+        - name: MODEL_MODULE
+          value: {{ .Values.model.module }}
+        - name: MODEL_CLASS
+          value: {{ .Values.model.class }}          
+        - name: MODEL_PARAMETERS
+          value: {{ .Values.model.parameters }}
