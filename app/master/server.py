@@ -51,7 +51,7 @@ def get_item():
     url = None
     try:
         url = q.get(timeout=3)
-        print('url: ', url)
+        print('training data info: ', url)
         return url
     except queue.Empty:
         print('Empty queue')
